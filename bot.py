@@ -1,22 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright 207 SlavMetal <7tc@protonmail.com>
+# Copyright 2017 SlavMetal <7tc@protonmail.com>
 #
-# This file is part of GrNaziBot.
+# This file is part of GrammarNaziBot.
 #
-# GrNaziBot is free software: you can redistribute it and/or modify
+# GrammarNaziBot is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# GrNaziBot is distributed in the hope that it will be useful,
+# GrammarNaziBot is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with ShinySDR.  If not, see <http://www.gnu.org/licenses/>.
+# along with GrammarNaziBot.  If not, see <http://www.gnu.org/licenses/>.
 
 # TODO add strings support
 # TODO add languages selection
@@ -25,10 +25,9 @@
 # because of API limits
 
 import logging
-
 import requests
 import yaml
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
 
 # Open the config.yml file
 with open("config.yml", 'r') as ymlfile:
@@ -50,18 +49,17 @@ def help(bot, update):
 
 
 def echo(bot, update):
-    # url = "http://speller.yandex.net/services/spellservice.json/checkText?text="
-    url = "http://speller.yandex.net/services/spellservice.json/checkText?text=синхрафазатрон+в+привед+hello"
-    respond = requests.get(url) # Get JSON data
+    url = "http://speller.yandex.net/services/spellservice.json/checkText?text="
+    respond = requests.get(url + update.message.text)  # Get JSON data
     json_data = respond.json()  # Parsed JSON data
 
-    corrected_words = []  # Array to put corrected words in
+    corrected_words = ''  # Array to put corrected words in
 
     for i in json_data:  # Add corrected words in array
         word_len = i['len'] + 2
-        corrected_words.append(str(i['s'])[2:word_len])
-    for i in corrected_words:  # Send corrected words
-        update.message.reply_text(i)
+        corrected_words += str(i['s'])[2:word_len] + ', '
+    # for i in corrected_words:  # Send corrected words
+    update.message.reply_text(corrected_words, reply_to_message_id=update.message.message_id)
 
 
 def error(bot, update, error):

@@ -1,1 +1,1 @@
-# GrNaziBot
+# GrammarNaziBot
