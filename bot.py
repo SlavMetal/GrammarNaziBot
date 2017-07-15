@@ -75,8 +75,9 @@ def echo(bot, update):
     corrected_words = ''  # Put corrected words here
     chat = update.message.chat.id
     word_entries = 0
+    current_entry = 0
 
-    for i in json_data:
+    for i in json_data:  # Counts corrected words (w/o possible options)
         if i['s']:
             word_entries += 1
 
@@ -85,14 +86,16 @@ def echo(bot, update):
             arr = i['s']  # Get corrected words in 'i' iteration
             arr_length = len(arr)
             if arr_length == 1:
-                corrected_words += arr[0] + '; '
+                corrected_words += arr[0]
             elif arr_length > 1:  # If there are other possible corrected words
                 brackets = ''
                 for j in range(1, arr_length):
                     brackets += arr[j]
                     if not is_last(j, arr_length):
                         brackets += ', '
-                corrected_words += arr[0] + ' ({}?); '.format(brackets)
+                corrected_words += arr[0] + ' ({}?)'.format(brackets)
+            corrected_words += '; ' if current_entry < word_entries - 1 else '.'
+            current_entry += 1
         update.message.reply_text(corrected_words, reply_to_message_id=update.message.message_id)
 
 
