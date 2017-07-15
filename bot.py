@@ -21,10 +21,12 @@
 # TODO bold highlighting
 # TODO rewrite code of sending corrected words
 # TODO Functions for checks
+# TODO respond smth to private functions
 
 import logging
 import requests
 import yaml
+import re
 from telegram import ParseMode
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from functools import wraps
@@ -74,7 +76,7 @@ def ping(bot, update):
 def echo(bot, update):
     chat = update.message.chat.id
     if chat in cfg['admins_ids'] or chat in cfg['groups_ids']:
-        url = "http://speller.yandex.net/services/spellservice.json/checkText?text=" + update.message.text
+        url = "http://speller.yandex.net/services/spellservice.json/checkText?text=" + remove_links(update.message.text)
         respond = requests.get(url)  # Get JSON data
         json_data = respond.json()  # Parsed JSON data
 
@@ -110,6 +112,11 @@ def is_last(index: int, length: int):
     if index + 1 != length:
         return False
     return True
+
+
+def remove_links(string: str):
+    string = re.sub(r'^https?:\/\/.*[\r\n]*', '', string, flags=re.MULTILINE)
+    return string
 
 
 def error(bot, update, error):
