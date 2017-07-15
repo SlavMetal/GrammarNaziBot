@@ -81,11 +81,13 @@ def echo(bot, update):
         if i['s']:
             word_entries += 1
 
-    if len(json_data) > 0 and chat in cfg['admins_ids'] or chat in cfg['groups_ids']:
+    if chat in cfg['admins_ids'] or chat in cfg['groups_ids']:
         for i in json_data:  # Adding corrected words to string
             arr = i['s']  # Get corrected words in 'i' iteration
             arr_length = len(arr)
-            if arr_length == 1:
+            if arr_length == 0:
+                continue
+            elif arr_length == 1:
                 corrected_words += arr[0]
             elif arr_length > 1:  # If there are other possible corrected words
                 brackets = ''
@@ -96,7 +98,8 @@ def echo(bot, update):
                 corrected_words += arr[0] + ' ({}?)'.format(brackets)
             corrected_words += '; ' if current_entry < word_entries - 1 else '.'
             current_entry += 1
-        update.message.reply_text(corrected_words, reply_to_message_id=update.message.message_id)
+        if corrected_words:
+            update.message.reply_text(corrected_words, reply_to_message_id=update.message.message_id)
 
 
 def is_last(index: int, length: int):
