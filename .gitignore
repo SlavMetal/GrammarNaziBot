@@ -131,4 +131,4 @@ cmake-build-debug/
 *.iws
 
 # My rules
-config.yml
+/config.yml

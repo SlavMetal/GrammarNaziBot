@@ -67,6 +67,10 @@ def help(bot, update):
                               'Author: @SlavMetal', disable_web_page_preview=True, parse_mode=ParseMode.MARKDOWN)
 
 
+def ping(bot, update):
+    update.message.reply_text('Pong!', reply_to_message_id=update.message.message_id)
+
+
 def echo(bot, update):
     url = "http://speller.yandex.net/services/spellservice.json/checkText?text=" + update.message.text
     respond = requests.get(url)  # Get JSON data
@@ -118,6 +122,7 @@ def main():
 
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
+    dp.add_handler(CommandHandler("ping", ping))
 
     # on no command
     dp.add_handler(MessageHandler(Filters.text, echo))
