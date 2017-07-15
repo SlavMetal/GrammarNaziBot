@@ -53,12 +53,19 @@ def echo(bot, update):
     respond = requests.get(url + update.message.text)  # Get JSON data
     json_data = respond.json()  # Parsed JSON data
 
-    corrected_words = ''  # Array to put corrected words in
+    corrected_words = ''  # Put corrected words here
 
     for i in json_data:  # Add corrected words in array
-        word_len = i['len'] + 2
-        corrected_words += str(i['s'])[2:word_len] + ', '
-    # for i in corrected_words:  # Send corrected words
+        arr = i['s']
+        if len(arr) == 1:
+            corrected_words += arr[0] + '; '
+        else:
+            brackets = ''
+            for j in range(1, len(arr)):
+                brackets += arr[j]
+                if j+1 != len(arr):  # Check if the element is not the last one
+                    brackets += ', '
+            corrected_words += arr[0] + ' (' + brackets + '?); '
     update.message.reply_text(corrected_words, reply_to_message_id=update.message.message_id)
 
 
