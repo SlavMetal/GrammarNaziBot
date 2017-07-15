@@ -22,6 +22,7 @@
 # TODO rewrite code of sending corrected words
 # TODO Functions for checks
 # TODO respond smth to private functions
+# TODO ignore forwarded messages
 
 import logging
 import requests
@@ -115,7 +116,7 @@ def is_last(index: int, length: int):
 
 
 def remove_links(string: str):
-    string = re.sub(r'^https?:\/\/.*[\r\n]*', '', string, flags=re.MULTILINE)
+    string = re.sub(r'(https|http)?:\/\/(\w|\.|\/|\?|\=|\&|\%)*\b', '', string, flags=re.MULTILINE)
     return string
 
 
