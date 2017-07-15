@@ -72,20 +72,20 @@ def ping(bot, update):
 
 
 def echo(bot, update):
-    url = "http://speller.yandex.net/services/spellservice.json/checkText?text=" + update.message.text
-    respond = requests.get(url)  # Get JSON data
-    json_data = respond.json()  # Parsed JSON data
-
-    corrected_words = ''  # Put corrected words here
     chat = update.message.chat.id
-    word_entries = 0
-    current_entry = 0
-
-    for i in json_data:  # Counts corrected words (w/o possible options)
-        if i['s']:
-            word_entries += 1
-
     if chat in cfg['admins_ids'] or chat in cfg['groups_ids']:
+        url = "http://speller.yandex.net/services/spellservice.json/checkText?text=" + update.message.text
+        respond = requests.get(url)  # Get JSON data
+        json_data = respond.json()  # Parsed JSON data
+
+        corrected_words = ''  # Put corrected words here
+        word_entries = 0
+        current_entry = 0
+
+        for i in json_data:  # Counts corrected words (w/o possible options)
+            if i['s']:
+                word_entries += 1
+
         for i in json_data:  # Adding corrected words to string
             arr = i['s']  # Get corrected words in 'i' iteration
             arr_length = len(arr)
