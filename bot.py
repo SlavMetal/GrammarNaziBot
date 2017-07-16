@@ -20,7 +20,6 @@
 
 # TODO rewrite code of sending corrected words
 # TODO Functions for checks
-# TODO respond smth to private functions
 
 import logging
 import requests
