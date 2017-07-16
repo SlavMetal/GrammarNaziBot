@@ -18,11 +18,9 @@
 # You should have received a copy of the GNU General Public License
 # along with GrammarNaziBot.  If not, see <http://www.gnu.org/licenses/>.
 
-# TODO bold highlighting
 # TODO rewrite code of sending corrected words
 # TODO Functions for checks
 # TODO respond smth to private functions
-# TODO ignore forwarded messages
 
 import logging
 import requests
@@ -48,6 +46,7 @@ def private(func):
     @wraps(func)
     def wrapped(bot, update, *args, **kwargs):
         if update.message.chat.type != 'private':
+            update.message.reply_text("Use this command in private.", reply_to_message_id=update.message.message_id)
             return
         return func(bot, update, *args, **kwargs)
     return wrapped
@@ -105,7 +104,7 @@ def echo(bot, update):
                 corrected_words += arr[0] + ' ({}?)'.format(brackets)
             corrected_words += '; ' if current_entry < word_entries - 1 else '.'
             current_entry += 1
-        if corrected_words:
+        if corrected_words:  # If string is not empty
             update.message.reply_text(corrected_words, reply_to_message_id=update.message.message_id)
 
 
@@ -133,7 +132,7 @@ def main():
     dp.add_handler(CommandHandler("ping", ping))
 
     # on no command
-    dp.add_handler(MessageHandler(Filters.text, echo))
+    dp.add_handler(MessageHandler(Filters.text & (~ Filters.forwarded), echo))  # Message is text and is not forwarded
 
     # log all errors
     dp.add_error_handler(error)

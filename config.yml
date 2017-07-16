@@ -1,6 +1,0 @@
----
-# Some bot settings
-botapi_token: your_token_here
-admins_ids: [integer_ids_here]
-groups_ids: [integer_ids_here]
-...
