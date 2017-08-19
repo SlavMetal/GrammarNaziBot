@@ -17,4 +17,4 @@ python3 grammarnazibot.py
 ## Contribution
 Any kind of help (pull requests, issues, etc.) would be very appreciated as this is my first Python program!
 ## Contact
-You can contact me directly in [Telegram](http://telegram.me/SlavMetal).
+You can contact me directly in [Telegram](https://t.me/SlavMetal).
