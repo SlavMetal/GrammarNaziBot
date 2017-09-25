@@ -1,3 +1,4 @@
+[![Requirements Status](https://requires.io/github/SlavMetal/GrammarNaziBot/requirements.svg?branch=master)](https://requires.io/github/SlavMetal/GrammarNaziBot/requirements/?branch=master)
 # GrammarNaziBot
 GrammarNaziBot is a Telegram bot that checks grammar of every message sent in private or group chat. Recognizes English, Russian and Ukrainian words using Yandex Speller API.
 ## Setup
