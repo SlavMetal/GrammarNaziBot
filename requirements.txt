@@ -1,3 +1,0 @@
-PyYAML==3.12
-requests==2.18.4
-python-telegram-bot==10.0.1
